@@ -12,3 +12,7 @@ https://github.com/dotnet/interactive
 For further info....
 
 https://mybinder.readthedocs.io/en/latest/tutorials/dockerfile.html
+
+Edited the Binder url with "?urlpath=lab" in order to select JupyterLab, as this provides better support for polygot notebooks, see..
+
+https://mybinder.readthedocs.io/en/latest/howto/user_interface.html
