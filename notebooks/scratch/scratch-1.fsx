@@ -19,7 +19,7 @@
 
 let isPrime n =
     match n with
-    | 1 -> true
+    | 1 -> false
     | _ -> 
         let maxDiv = n / 2
         let rec isPrime' d =
@@ -41,30 +41,58 @@ let getDivisors n =
 
 getDivisors 8
 
+
 // 3. Simple func to test if a divisor is a square
 
-let isSquareDivisor d n = 
-    let dSqr = d * d
-    match dSqr with
-    | _ when n = dSqr -> true // TODO: how to match on the actual value?
-    | _ -> false
+// let isSquareDivisor n d = 
+//     let dSqr = d * d
+//     match dSqr with
+//     | _ when n = dSqr -> true // TODO: how to match on the actual value?
+//     | _ -> false
 
-isSquareDivisor 5 25
-isSquareDivisor 3 25
+// isSquareDivisor 25 5
+// isSquareDivisor 25 3
 
-// 4. Is even 
-let isEven n = n % 2 = 0
 
-// 5. Now combine all funcs to get our mobius
+// 4. Now combine all funcs to get our mobius
+// expect:
+//n	    1	2	3	4	5	6	7	8	9	10
+//μ(n)	1	−1	−1	0	−1	1	−1	0	0	1
 
 let mobius n =
+    // helper funcs
+    let isEven n = n % 2 = 0
+    let isDivisor n d = n % d = 0
+    let square d = d * d
+    // get any primes and square prime divisors    
     let divisors = getDivisors n
     let primeDivisors = divisors |> List.filter isPrime
-    let squareExists = primeDivisors |> List.exists (isSquareDivisor n) 
+    let squareDivisors = primeDivisors |> List.map square
+    let squareExists = squareDivisors |> List.exists (isDivisor n)
+    // apply final logic
     if squareExists then 0
     elif isEven primeDivisors.Length then 1
     else -1 
     
+
+let expected = [1;-1;-1;0;-1;1;-1;0;0;1]
+let result = [1..10] |> List.map mobius
+let compare = List.zip expected result
+compare |> List.filter (fun (x, y) -> x <> y)
+
+//6. Mertens
+// expect 
+// M(n)	+0	    1	2	3	4	5	6	7	8	9	10	
+// 0+		    1	0	−1	−1	−2	−1	−2	−2	−2	−1	
+
+let mertens n = [1..n] |> List.scan (fun acc n -> acc + (mobius n)) 0 |> List.skip 1
+
+let result = mertens 10
+let expected = [1;0;-1;-1;-2;-1;-2;-2;-2;-1]
+let compare = List.zip expected result
+compare |> List.filter (fun (x, y) -> x <> y)
+
+
 
 
 
