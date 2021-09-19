@@ -1,20 +1,22 @@
 
+## Random Numbers with LFSR (Linear Feedback Shift Register) - Computerphile
+
 ## https://www.youtube.com/watch?v=Ks1pw1X22y4
 
 ## 1. let's do a simple 4 bit register first
 
-state = 0b1001
+# state = 0b1001
 
-for i in range(20):
-    # print("{:04b}".format(state))
-    print(state & 1, end = '')
-    # here we are xoring the right most bit with the bit to the left of it
-    # we then 'and' with 1 to get the last bit
-    newBit = (state ^ (state >> 1)) & 1
-    # because when we shift our state to the right our left most bit becomes zero
-    # if you 'or' a zero with something it will set that zero bit to whatever
-    # the something is
-    state = (state >> 1) | (newBit << 3) 
+# for i in range(20):
+#     # print("{:04b}".format(state))
+#     print(state & 1, end = '')
+#     # here we are xoring the right most bit with the bit to the left of it
+#     # we then 'and' with 1 to get the last bit
+#     newBit = (state ^ (state >> 1)) & 1
+#     # because when we shift our state to the right our left most bit becomes zero
+#     # if you 'or' a zero with something it will set that zero bit to whatever
+#     # the something is
+#     state = (state >> 1) | (newBit << 3) 
 
 #exit()   # if you want exit the repl 
 
