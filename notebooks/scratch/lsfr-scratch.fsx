@@ -6,23 +6,6 @@
 // See the python script of same name, converted the python to f# for fun
 // https://www.youtube.com/watch?v=Ks1pw1X22y4
 
-// 0. Binary fundamentals
-
-let printBinaryn (binary: int) (n: int) = printfn "%s" (System.Convert.ToString(binary,2).PadLeft(n,'0'))
-printBinaryn 0b1001 4
-printBinaryn (0b1001 ||| 1) 4
-
-1 ||| 0
-1 ||| 1
-0 ||| 1
-0 ||| 0
-
-0 &&& 0
-0 &&& 1
-
-1 &&& 1
-0 &&& 1
-
 
 // 1. Simple 4 bit register
 
@@ -32,7 +15,7 @@ let mutable state = 0b1001
 for i = 1 to 20 do
     //printBinary state
     printf "%i" (state &&& 1)
-    let newbit = (state ^^^ (state >>> 1)) &&& 1
+    let newbit = (state ^^^ (state >>> 1)) &&& 1 // we and with one to get the rightmost bit only
     state <- (state >>> 1) ||| (newbit <<< 3) // or ing the left most *zero* bit to set it to the new bit
     
 
@@ -63,7 +46,7 @@ let rec lsfr128 state: System.Numerics.BigInteger =
 
 lsfr128 ((1I <<< 127) ||| 1I)
 
-//b. bounded
+//b. bounded recursive (messy)
 
 let transform state: System.Numerics.BigInteger = 
         let newbit = (state ^^^ (state >>> 1) ^^^ (state >>> 2) ^^^ (state >>> 7)) &&& 1I
@@ -79,6 +62,8 @@ let lsfrBounded (maxi: int) (initialState: System.Numerics.BigInteger) =
 
 
 lsfrBounded 10000 ((1I <<< 127) ||| 1I)
+
+
 
         
     

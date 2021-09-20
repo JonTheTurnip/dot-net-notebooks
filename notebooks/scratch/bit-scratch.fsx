@@ -1,13 +1,38 @@
 
 open System
 
-let bitPrinter (binary: int) (n: int) = printfn "%s" (Convert.ToString(binary,2).PadLeft(n,'0'))
+let bitPrinter (n: int) (binary: int)  = printfn "%s" (Convert.ToString(binary,2).PadLeft(n,'0'))
+let printer = bitPrinter 4
 
 let x = 0b0000
 let y = 0b1000
 
-bitPrinter x 4
-bitPrinter y 4
+printer x
+printer y
 
-bitPrinter (x ||| y) 4
-bitPrinter (x &&& y) 4
+printer (x ||| y)
+printer (x &&& y)
+
+// Oring with 1 set all bits to one
+printer ( 0b0000 ||| 0b1111)
+printer ( 0b0101 ||| 0b1111)
+printer ( 0b1111 ||| 0b1111)
+
+// Oring with 0 does nothing
+printer ( 0b0000 ||| 0b0000)
+printer ( 0b0101 ||| 0b0000)
+printer ( 0b1111 ||| 0b0000)
+
+// Anding with 1 does nothing
+printer ( 0b0000 &&& 0b1111)
+printer ( 0b0101 &&& 0b1111)
+printer ( 0b1111 &&& 0b1111)
+
+// Anding with 0 sets all bits to zero
+printer ( 0b0000 &&& 0b0000)
+printer ( 0b0101 &&& 0b0000)
+printer ( 0b1111 &&& 0b0000)
+
+// different lengths (zeros added to fill the gap)
+Convert.ToString(( 0b1111 &&& 0b0), 2)
+Convert.ToString(( 0b1011 ||| 0b0), 2)
