@@ -6,10 +6,12 @@
 // See the python script of same name, converted the python to f# for fun
 // https://www.youtube.com/watch?v=Ks1pw1X22y4
 
+open System.Numerics
+open type System.Convert
 
 // 1. Simple 4 bit register
 
-let printBinary (binary: int) = printfn "%s" (System.Convert.ToString(binary,2).PadLeft(4,'0'))
+let printBinary (binary: int) = printfn "%s" (ToString(binary,2).PadLeft(4,'0'))
 
 let mutable state = 0b1001
 for i = 1 to 20 do
@@ -39,7 +41,7 @@ for i = 1 to 1000 do
 // 3. Howabout a recursive function for the above for fun?
 
 // a. infinite
-let rec lsfr128 state: System.Numerics.BigInteger =
+let rec lsfr128 state: BigInteger =
     printf "%s" ((state &&& 1I).ToString())        
     let newbit = (state ^^^ (state >>> 1) ^^^ (state >>> 2) ^^^ (state >>> 7)) &&& 1I
     lsfr128 ((state >>> 1) ||| (newbit <<< 127))
@@ -48,12 +50,12 @@ lsfr128 ((1I <<< 127) ||| 1I)
 
 //b. bounded recursive (messy)
 
-let transform state: System.Numerics.BigInteger = 
+let transform state: BigInteger = 
         let newbit = (state ^^^ (state >>> 1) ^^^ (state >>> 2) ^^^ (state >>> 7)) &&& 1I
         ((state >>> 1) ||| (newbit <<< 127))
 
-let lsfrBounded (maxi: int) (initialState: System.Numerics.BigInteger) =    
-    let rec lsfrBounded' (state: System.Numerics.BigInteger) (i: int) = 
+let lsfrBounded (maxi: int) (initialState: BigInteger) =    
+    let rec lsfrBounded' (state: BigInteger) (i: int) = 
         printf "%s" ((state &&& 1I).ToString())
         match i with        
         | i when i < maxi -> lsfrBounded' (transform state) (i + 1)

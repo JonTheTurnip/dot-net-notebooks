@@ -1,5 +1,6 @@
 
-open System
+//open System
+open type System.Convert
 
 let bitPrinter (n: int) (binary: int)  = printfn "%s" (Convert.ToString(binary,2).PadLeft(n,'0'))
 let printer = bitPrinter 4
@@ -34,5 +35,5 @@ printer ( 0b0101 &&& 0b0000)
 printer ( 0b1111 &&& 0b0000)
 
 // different lengths (zeros added to fill the gap)
-Convert.ToString(( 0b1111 &&& 0b0), 2)
-Convert.ToString(( 0b1011 ||| 0b0), 2)
+ToString(( 0b1111 &&& 0b0), 2)
+ToString(( 0b1011 ||| 0b0), 2)
